@@ -1,140 +1,208 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Quorum.FieldVisor.Mobile.Pages.Popups.TimePickerPopup"
-    Disappearing="PopupPage_Disappearing">
-    <StackLayout
-        VerticalOptions="Center"
-        HorizontalOptions="Center"
-        >
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:views="clr-namespace:Quorum.FieldVisor.Mobile.Views"
+                 mc:Ignorable="d"
+                 x:Class="Quorum.FieldVisor.Mobile.Pages.Popups.TimePickerPopup"
+                 x:Name="TimePickerPage"
+                 Disappearing="PopupPage_Disappearing"
+                 BindingContext="{x:Reference TimePickerPage}"
+                 AutomationId="TimePicker">
 
-        <Frame
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            CornerRadius="5"
-            BackgroundColor="White"
-            Padding="3">
-            
-            <Grid
-                x:Name="TimePicker"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                ColumnSpacing="0"
-                RowSpacing="0"
-                BackgroundColor="White"
-                Padding="0">
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="AddSubtractButtonStyle"
+                   TargetType="Button">
+                <Setter Property="FontSize"
+                        Value="80" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource FontAwesomeFamily}" />
+                <Setter Property="BackgroundColor"
+                        Value="White" />
+                <Setter Property="TextColor"
+                        Value="{StaticResource QuorumBlue}" />
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    <RelativeLayout>
+        <StackLayout BackgroundColor="Transparent"
+                     RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0,Constant=0}"
+                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0,Constant=0}"
+                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1, Constant=0}"
+                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1, Constant=0}">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="BackgroundTapped"></TapGestureRecognizer>
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+
+        <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.05,Constant=0}"
+                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.05,Constant=0}"
+                     RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.90, Constant=0}"
+                     RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.90, Constant=0}"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     Padding="0">
+            <views:BorderFrame VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               CornerRadius="5"
+                               BackgroundColor="White"
+                               Padding="0">
+
+                <Grid x:Name="TimePicker"
+                      VerticalOptions="Center"
+                      HorizontalOptions="Center"
+                      ColumnSpacing="0"
+                      RowSpacing="0"
+                      BackgroundColor="White"
+                      Margin="5"
+                      WidthRequest="350">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <!--hour section-->
+                    <Button x:Name="AddHourButton"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="&#xf0de;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,0,0,-40"
+                            Pressed="AddHourButtonPressed"
+                            Released="HourButtonReleased"
+                            AutomationId="AddHourButton"/>
+                    <Label x:Name="HourLabel"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Text="{Binding Hour, Mode=TwoWay}"
+                           FontSize="32"
+                           AutomationId="HourLabel"
+                           />
+                    <Button x:Name="SubtractHourButton"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="&#xf0dd;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,-40,0,0"
+                            Pressed="SubtractHourButtonPressed"
+                            Released="HourButtonReleased"
+                            AutomationId="SubtractHourButton"/>
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text=":"
+                           VerticalTextAlignment="Center"
+                           FontSize="32"
+                           Margin="0,-5,0,0"/>
+                    <!--minute section-->
+                    <Button x:Name="AddMinuteButton"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Text="&#xf0de;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,0,0,-40"
+                            Pressed="AddMinuteButtonPressed"
+                            Released="MinuteButtonReleased"
+                            AutomationId="AddMinuteButton" />
+                    <Label x:Name="MinuteLabel"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Text="{Binding Minute, Mode=TwoWay, StringFormat='{0:00}'}"
+                           FontSize="32"
+                           AutomationId="MinuteLabel" />
+                    <Button x:Name="SubtractMinuteButton"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Text="&#xf0dd;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,-40,0,0"
+                            Pressed="SubtractMinuteButtonPressed"
+                            Released="MinuteButtonReleased"
+                            AutomationId="SubtractMinuteButton" />
+
+                    <!--format section-->
+                    <Button x:Name="AddFormatButton"
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Text="&#xf0de;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,0,0,-40"
+                            Pressed="AddFormatButtonPressed"
+                            Released="FormatButtonReleased"
+                            AutomationId="AddFormatButton" />
+                    <Label x:Name="FormatLabel"
+                           Grid.Row="1"
+                           Grid.Column="3"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Text="{Binding Format, Mode=TwoWay}"
+                           FontSize="32"
+                           AutomationId="FormatLabel" />
+                    <Button x:Name="SubtractFormatButton"
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Text="&#xf0dd;"
+                            Style="{StaticResource AddSubtractButtonStyle}"
+                            Padding="0,-40,0,0"
+                            Pressed="SubtractFormatButtonPressed"
+                            Released="FormatButtonReleased"
+                            AutomationId="SubtractFormatButton" />
+                </Grid>
+            </views:BorderFrame>
+
+            <Grid x:Name="TimePickerDoneButton"
+                  VerticalOptions="Center"
+                  HorizontalOptions="Center"
+                  ColumnSpacing="0"
+                  RowSpacing="0"
+                  BackgroundColor="Transparent"
+                  Padding="0">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="BackgroundTapped" />
+                </Grid.GestureRecognizers>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="97"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="27"/>
-                    <RowDefinition Height="1"/>
-                    <RowDefinition Height="99"/>
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                    
-                <ScrollView
-                    x:Name="ScrollHours"    
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Grid.RowSpan="5"
-                    BackgroundColor="White"
-                    Scrolled="ScrollHours_Scrolled">
 
-                    <StackLayout
-                        x:Name="mainStackHours"
-                        Spacing="0"/>
-
-                </ScrollView>
-                
-                    <ScrollView
-                        x:Name="ScrollMinutes"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Grid.RowSpan="5"
+                <Button Grid.Column="2"
+                        Grid.Row="0"
+                        Text="Done"
+                        FontSize="20"
                         BackgroundColor="White"
-                        Scrolled="ScrollMinutes_Scrolled">
-
-                    <StackLayout
-                            x:Name="mainStackMinutes"
-                            Spacing="0"/>
-
-                </ScrollView>
-                
-                    <ScrollView 
-                        x:Name="ScrollFormat"
-                        Grid.Row="1"
-                        Grid.RowSpan="5"
-                        Grid.Column="2"
-                        VerticalOptions="Center"
-                        BackgroundColor="White"
-                        Scrolled="ScrollFormat_Scrolled">
-
-                    <StackLayout
-                            x:Name="mainStackFormat"
-                            VerticalOptions="Center"
-                            Spacing="0"/>
-
-                </ScrollView>
-
-                <BoxView
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="{StaticResource QuorumBlue}"/>
-                <BoxView
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="{StaticResource QuorumBlue}"/>
+                        CornerRadius="5"
+                        TextColor="{StaticResource QuorumBlue}"
+                        Pressed="DoneButtonPressed"
+                        AutomationId="DoneButton" />
 
             </Grid>
 
-        </Frame>
-        
-        <Grid
-            x:Name="TimePickerDoneButton"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            ColumnSpacing="0"
-            RowSpacing="0"
-            BackgroundColor="Transparent"
-            Padding="0">
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-            </Grid.RowDefinitions>
-            
-            <Button
-                Grid.Column="2"
-                Grid.Row="0"
-                Text="Done"
-                FontSize="20"
-                Clicked="Button_Clicked"
-                BackgroundColor="White"
-                CornerRadius="5"
-                TextColor="{StaticResource QuorumBlue}"
-                AutomationId="DoneButton"/>
-            
-        </Grid>
-        
-    </StackLayout>
-    
-    
+        </StackLayout>
+
+
+    </RelativeLayout>
+
+
+
 </pages:PopupPage>
